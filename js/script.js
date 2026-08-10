@@ -367,6 +367,87 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
     }
+    // =========================
+// FILTRO DE CATEGORIAS
+// =========================
+
+const categorias = document.querySelectorAll(".card-categoria");
+
+categorias.forEach(categoria => {
+
+    categoria.addEventListener("click", (e) => {
+
+        e.preventDefault();
+
+        const nomeCategoria = categoria.querySelector("h3").textContent
+            .toLowerCase();
+
+        const produtos = document.querySelectorAll(".produto");
+
+        let encontrou = false;
+
+        produtos.forEach(produto => {
+
+            const categoriaProduto = produto.dataset.categoria;
+
+            if (
+                nomeCategoria.includes("cães") &&
+                categoriaProduto === "caes"
+            ) {
+
+                produto.style.display = "flex";
+                encontrou = true;
+
+            } else if (
+                nomeCategoria.includes("gatos") &&
+                categoriaProduto === "gatos"
+            ) {
+
+                produto.style.display = "flex";
+                encontrou = true;
+
+            } else {
+
+                produto.style.display = "none";
+
+            }
+
+        });
+
+ if (encontrou) {
+
+    setTimeout(() => {
+
+        const primeiroProduto = document.querySelector(
+            '#promocoes .produto[data-categoria="caes"]'
+        );
+
+        if (primeiroProduto) {
+
+            const posicao =
+                primeiroProduto.getBoundingClientRect().top +
+                window.pageYOffset -
+                180;
+
+            window.scrollTo({
+                top: posicao,
+                behavior: "smooth"
+            });
+
+        }
+
+    }, 100);
+
+} else {
+
+    alert("Ainda não temos produtos cadastrados nessa categoria.");
+
+}
+
+    });
+
+});
+    
 
 
     // =========================

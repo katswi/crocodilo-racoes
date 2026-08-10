@@ -39,7 +39,7 @@ header{
     font-weight:700;
 }
 .logo img{
-    width:170px;
+    width:230px;
     height:auto;
     transition:.3s;
 }
@@ -145,12 +145,6 @@ height:60px;
 }
 /* ======= MENU ======= */
 
-nav{
-    display:flex;
-    align-items:center;
-    gap:50px;
-}
-
 nav a{
     position:relative;
 
@@ -216,16 +210,6 @@ width:95%;
     0 15px 35px rgba(0,0,0,.08),
     0 35px 70px rgba(21,107,58,.08);
 }
-.banner::before{
-    content:"";
-    position:absolute;
-    width:350px;
-    height:350px;
-    background:rgba(39,174,96,.06);
-    border-radius:50%;
-    top:-120px;
-    right:-120px;
-}
 
 .banner::after{
     content:"";
@@ -249,15 +233,6 @@ width:95%;
 }
 
 
-.imagem-banner{
-    flex:1;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    overflow:hidden;
-    border-radius:22px;   /* adicione esta linha */
-}
 .texto-banner h1{
     font-size:68px;
     font-weight:800;
@@ -270,7 +245,7 @@ width:95%;
     font-size:24px;
     line-height:1.6;
     color:#4d4d4d;
-    margin-bottom:35px;
+    margin-bottom:25px;
     max-width:520px;
 }
 .botao{
@@ -300,17 +275,6 @@ width:95%;
 
     box-shadow:0 12px 25px rgba(255,193,7,.35);
 }
-.botao:hover{
-
-    transform:translateY(-4px) scale(1.03);
-
-    background:#FFD54F;
-
-    box-shadow:0 15px 30px rgba(0,0,0,.30);
-
-}
-
-
 
 .imagem-banner{
     flex:1;
@@ -339,9 +303,7 @@ width:95%;
     transform:scale(1.05);
 }
 
-.imagem-banner img:hover{
-    transform:scale(1.03);
-}
+
 /* ========= BENEFÍCIOS ========= */
 
 .beneficios{
@@ -427,20 +389,11 @@ width:95%;
     text-align:center;
     width:90%;
     max-width:1400px;
-    
-
-    margin:70px auto;
-
-    position:relative;
-}
-
-.categorias h2{
     font-size:42px;
     font-weight:700;
-
     color:#222;
-
-    margin-bottom:35px;
+    margin:70px auto 35px;
+    position:relative;
 }
 
 .grid-categorias{
@@ -562,6 +515,10 @@ width:95%;
     align-items:center;
     justify-content:center;
 }
+.card-categoria{
+    text-decoration:none;
+    color:inherit;
+}
 
 
 .card-categoria:hover{
@@ -593,18 +550,16 @@ width:95%;
     color:#1f6f43;
 }
 
-.logo img{
-    width:230px;
-    height:auto;
-    display:block;
-}
 /* ======= PRODUTOS ======= */
 
 .produtos{
     width:90%;
     max-width:1400px;
 
-    margin:80px auto;
+    margin:50px auto;
+}
+#promocoes{
+    scroll-margin-top: 90px;
 }
 
 .produtos h2{
@@ -613,7 +568,7 @@ width:95%;
 
     color:#222;
 
-    margin-bottom:35px;
+    margin-bottom:25px;
 }
 
 .grid-produtos{
@@ -679,9 +634,12 @@ nav a:hover::after{
     z-index:2;
 }
 .imagem-banner{
+    flex:1;
     display:flex;
     justify-content:center;
     align-items:center;
+    overflow:hidden;
+    border-radius:22px;
     padding-top:15px;
 }
 
@@ -1549,36 +1507,7 @@ html{
         text-align: center;
         top: 0;
     }
-        .categorias {
-        width: 92%;
-    }
 
-    .categorias h2 {
-        font-size: 30px;
-        margin: 45px auto 25px;
-    }
-
-    .grid-categorias {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-
-    .card-categoria {
-        height: 105px;
-        padding: 12px;
-        border-radius: 18px;
-    }
-
-    .card-categoria i {
-        font-size: 35px;
-        margin-bottom: 12px;
-    }
-
-    .card-categoria h3 {
-        font-size: 13px;
-        text-align: center;
-        top: 0;
-    }
         .carrinho-lateral {
         width: 100%;
         right: -100%;
