@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const fecharCarrinho = document.querySelector("#fechar-carrinho");
     const finalizarWhatsApp = document.querySelector("#finalizar-whatsapp");
 
+
     // =========================
     // SALVAR CARRINHO
     // =========================
@@ -144,7 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
         mensagem +=
             "Total: R$ " +
             total.toFixed(2).replace(".", ",") +
-            "%0A%0ANome:";
+            "%0A%0ANome:" +
+            "%0AForma de pagamento:" +
+            "%0AEndereço para entrega:";
+
 
         window.open(
             "https://wa.me/5512981584619?text=" + mensagem,
@@ -365,7 +369,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // Botão de pesquisa
+    // =========================
+    // BOTÃO DE PESQUISA
+    // =========================
 
     botaoBusca.addEventListener(
         "click",
@@ -373,7 +379,9 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    // Enter na pesquisa
+    // =========================
+    // ENTER NA PESQUISA
+    // =========================
 
     campoBusca.addEventListener(
         "keydown",
