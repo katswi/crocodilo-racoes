@@ -309,41 +309,42 @@ const botaoBusca = document.querySelector(".pesquisa button");
 
 function realizarBusca() {
 
-    const termo = campoBusca.value.trim().toLowerCase();
+    const termoOriginal = campoBusca.value.trim();
+
+    const termo = termoOriginal
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+
     const produtos = document.querySelectorAll(".produto");
 
-    // Se a pesquisa estiver vazia, mostra todos os produtos
+    // Se a pesquisa estiver vazia, mostra todos
     if (termo === "") {
 
         produtos.forEach(produto => {
             produto.style.display = "flex";
-            produto.style.outline = "";
         });
 
         return;
     }
 
     let encontrou = false;
-    let primeiroResultado = null;
 
     produtos.forEach(produto => {
 
-        const textoProduto = produto.textContent.toLowerCase();
+        const textoProduto = produto.textContent
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
 
         if (textoProduto.includes(termo)) {
 
             produto.style.display = "flex";
-
-            if (!primeiroResultado) {
-                primeiroResultado = produto;
-            }
-
             encontrou = true;
 
         } else {
 
             produto.style.display = "none";
-            produto.style.outline = "";
 
         }
 
@@ -351,28 +352,24 @@ function realizarBusca() {
 
     if (encontrou) {
 
-        primeiroResultado.style.outline = "3px solid #f5b800";
+        const secaoPromocoes =
+            document.querySelector("#promocoes");
 
-        primeiroResultado.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
+        const posicao =
+            secaoPromocoes.getBoundingClientRect().top +
+            window.pageYOffset -
+            100;
+
+        window.scrollTo({
+            top: posicao,
+            behavior: "smooth"
         });
-
-        setTimeout(() => {
-            primeiroResultado.style.outline = "";
-        }, 2000);
 
     } else {
-
-        // Se não encontrou, volta a mostrar todos
-        produtos.forEach(produto => {
-            produto.style.display = "flex";
-        });
 
         alert("Produto não encontrado.");
 
     }
-
 }
 // =========================
 // FILTRO DE CATEGORIAS
@@ -526,6 +523,13 @@ botoesMarca.forEach(botao => {
 
         }
     );
+    campoBusca.addEventListener("input", () => {
+    if (campoBusca.value.trim() === "") {
+        document.querySelectorAll(".produto").forEach(produto => {
+            produto.style.display = "flex";
+        });
+    }
+});
 
 
     // =========================
