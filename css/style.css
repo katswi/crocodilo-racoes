@@ -398,7 +398,7 @@ width:95%;
 
 .grid-categorias{
     display:grid;
-    grid-template-columns:repeat(5,1fr);
+    grid-template-columns:repeat(3,1fr);
     gap:25px;
 }
 .produto{
@@ -559,7 +559,11 @@ width:95%;
     margin:50px auto;
 }
 #promocoes{
-    scroll-margin-top: 90px;
+    scroll-margin-top:90px;
+}
+
+#racoes{
+    scroll-margin-top:190px;
 }
 
 .produtos h2{

@@ -304,70 +304,77 @@ document.addEventListener("DOMContentLoaded", () => {
     // BUSCA DE PRODUTOS
     // =========================
 
-    const campoBusca = document.querySelector("#campo-busca");
+  const campoBusca = document.querySelector("#campo-busca");
+const botaoBusca = document.querySelector(".pesquisa button");
 
-    const botaoBusca = document.querySelector(".pesquisa button");
+function realizarBusca() {
 
+    const termo = campoBusca.value.trim().toLowerCase();
+    const produtos = document.querySelectorAll(".produto");
 
-    function realizarBusca() {
-
-        const termo = campoBusca.value.trim().toLowerCase();
-
-        if (termo === "") {
-
-            return;
-
-        }
-
-
-        const produtos = document.querySelectorAll(".produto");
-
-        let encontrou = false;
-
+    // Se a pesquisa estiver vazia, mostra todos os produtos
+    if (termo === "") {
 
         produtos.forEach(produto => {
-
-            const textoProduto =
-                produto.textContent.toLowerCase();
-
-
-            if (textoProduto.includes(termo)) {
-
-                produto.scrollIntoView({
-
-                    behavior: "smooth",
-
-                    block: "center"
-
-                });
-
-
-                produto.style.outline =
-                    "3px solid #f5b800";
-
-
-                setTimeout(() => {
-
-                    produto.style.outline = "";
-
-                }, 2000);
-
-
-                encontrou = true;
-
-            }
-
+            produto.style.display = "flex";
+            produto.style.outline = "";
         });
 
+        return;
+    }
 
-        if (!encontrou) {
+    let encontrou = false;
+    let primeiroResultado = null;
 
-            alert("Produto não encontrado.");
+    produtos.forEach(produto => {
+
+        const textoProduto = produto.textContent.toLowerCase();
+
+        if (textoProduto.includes(termo)) {
+
+            produto.style.display = "flex";
+
+            if (!primeiroResultado) {
+                primeiroResultado = produto;
+            }
+
+            encontrou = true;
+
+        } else {
+
+            produto.style.display = "none";
+            produto.style.outline = "";
 
         }
 
+    });
+
+    if (encontrou) {
+
+        primeiroResultado.style.outline = "3px solid #f5b800";
+
+        primeiroResultado.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+        setTimeout(() => {
+            primeiroResultado.style.outline = "";
+        }, 2000);
+
+    } else {
+
+        // Se não encontrou, volta a mostrar todos
+        produtos.forEach(produto => {
+            produto.style.display = "flex";
+        });
+
+        alert("Produto não encontrado.");
+
     }
-    // =========================
+
+}
+// =========================
 // FILTRO DE CATEGORIAS
 // =========================
 
@@ -379,29 +386,84 @@ categorias.forEach(categoria => {
 
         e.preventDefault();
 
-        const nomeCategoria = categoria.querySelector("h3").textContent
-            .toLowerCase();
+        const filtro = categoria.dataset.filtro;
 
+        const produtos = document.querySelectorAll(".produto");
+
+        let encontrou = false;
+        let primeiroProduto = null;
+
+        produtos.forEach(produto => {
+
+            const categoriaProduto = produto.dataset.categoria;
+
+            if (categoriaProduto === filtro) {
+
+                produto.style.display = "flex";
+
+                if (!primeiroProduto) {
+                    primeiroProduto = produto;
+                }
+
+                encontrou = true;
+
+            } else {
+
+                produto.style.display = "none";
+
+            }
+
+        });
+
+        if (encontrou) {
+
+const secaoPromocoes = document.querySelector("#promocoes");
+
+const posicao =
+    secaoPromocoes.getBoundingClientRect().top +
+    window.pageYOffset -
+    100;
+
+window.scrollTo({
+    top: posicao,
+    behavior: "smooth"
+});
+
+        } else {
+
+            alert("Ainda não temos produtos cadastrados nessa categoria.");
+
+        }
+
+    });
+
+});
+
+// =========================
+// FILTRO POR MARCA
+// =========================
+
+const botoesMarca = document.querySelectorAll("[data-marca]");
+
+botoesMarca.forEach(botao => {
+
+    botao.addEventListener("click", (e) => {
+
+        e.preventDefault();
+
+        const marca = botao.dataset.marca.toLowerCase();
         const produtos = document.querySelectorAll(".produto");
 
         let encontrou = false;
 
         produtos.forEach(produto => {
 
-            const categoriaProduto = produto.dataset.categoria;
+            const marcaProduto =
+                produto.querySelector(".marca")?.textContent
+                .trim()
+                .toLowerCase();
 
-            if (
-                nomeCategoria.includes("cães") &&
-                categoriaProduto === "caes"
-            ) {
-
-                produto.style.display = "flex";
-                encontrou = true;
-
-            } else if (
-                nomeCategoria.includes("gatos") &&
-                categoriaProduto === "gatos"
-            ) {
+            if (marcaProduto === marca) {
 
                 produto.style.display = "flex";
                 encontrou = true;
@@ -414,42 +476,30 @@ categorias.forEach(categoria => {
 
         });
 
- if (encontrou) {
+        if (encontrou) {
 
-    setTimeout(() => {
-
-        const primeiroProduto = document.querySelector(
-            '#promocoes .produto[data-categoria="caes"]'
-        );
-
-        if (primeiroProduto) {
+            const secaoPromocoes =
+                document.querySelector("#promocoes");
 
             const posicao =
-                primeiroProduto.getBoundingClientRect().top +
+                secaoPromocoes.getBoundingClientRect().top +
                 window.pageYOffset -
-                180;
+                100;
 
             window.scrollTo({
                 top: posicao,
                 behavior: "smooth"
             });
 
+        } else {
+
+            alert("Ainda não temos produtos dessa marca cadastrados.");
+
         }
-
-    }, 100);
-
-} else {
-
-    alert("Ainda não temos produtos cadastrados nessa categoria.");
-
-}
 
     });
 
 });
-    
-
-
     // =========================
     // BOTÃO DE PESQUISA
     // =========================
