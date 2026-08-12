@@ -436,6 +436,40 @@ window.scrollTo({
 
 });
 
+// ===========================
+// FILTRO SPECIAL DOG
+// ===========================
+
+const cardsSpecialDog = document.querySelectorAll(".card-special-dog");
+
+cardsSpecialDog.forEach(card => {
+
+    card.addEventListener("click", () => {
+
+        const tipo = card.dataset.tipo;
+
+        const produtos = document.querySelectorAll(".produto");
+
+        produtos.forEach(produto => {
+
+            const tipoProduto = produto.dataset.tipo;
+
+            if (tipoProduto === tipo) {
+                produto.style.display = "flex";
+            } else {
+                produto.style.display = "none";
+            }
+
+        });
+
+        document.querySelector("#catalogo").scrollIntoView({
+            behavior: "smooth"
+        });
+
+    });
+
+});
+
 // =========================
 // FILTRO POR MARCA
 // =========================

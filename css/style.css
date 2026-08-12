@@ -567,13 +567,14 @@ width:95%;
     scroll-margin-top:190px;
 }
 
-.produtos h2{
-    font-size:42px;
-    font-weight:700;
-
-    color:#222;
-
-    margin-bottom:25px;
+.produtos h2 {
+    font-size: 42px;
+    font-weight: 800;
+    color: #222;
+    margin-bottom: 25px;
+}
+#catalogo h2 {
+    color: #ffffff;
 }
 
 .grid-produtos{
@@ -828,6 +829,64 @@ nav a:hover::after{
 
 .botao-quatree:hover{
 
+    background:#155d38;
+}
+/* ========= GOLDEN ========= */
+
+.grid-golden{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.card-golden{
+    background:white;
+    border-radius:28px;
+    padding:35px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+    transition:.35s;
+    cursor:pointer;
+    overflow:hidden;
+}
+
+.card-golden:hover{
+    transform:translateY(-10px);
+}
+
+.card-golden img{
+    width:100%;
+    max-width:280px;
+    height:280px;
+    object-fit:contain;
+    display:block;
+    margin:0 auto;
+    transition:.4s;
+}
+
+.card-golden:hover img{
+    transform:scale(1.08);
+}
+
+.card-golden h3{
+    margin-top:45px;
+    font-size:24px;
+    color:#1f6f43;
+}
+.botao-golden{
+    display:block;
+    width:200px;
+    margin:35px auto 0;
+    padding:15px;
+    background:#1f6f43;
+    color:white;
+    text-align:center;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:700;
+    transition:.3s;
+}
+
+.botao-golden:hover{
     background:#155d38;
 }
 .grid-premier{
@@ -1595,4 +1654,62 @@ html{
         padding: 15px;
     }
 
+}
+/* CATÁLOGO COMPLETO */
+#catalogo .grid-produtos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    width: 100%;
+}
+
+#catalogo .produto {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+#catalogo .foto {
+    height: 230px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#catalogo .foto {
+    height: 350px;
+}
+
+#catalogo .foto img {
+    max-width: 100%;
+    max-height: 260px;
+    object-fit: contain;
+}
+#catalogo .foto:has(img[src*="special-dog-gold-jr"]),
+#catalogo .foto:has(img[src*="special-dog-gold-ad"]) {
+    height: 350px;
+}
+#catalogo .foto img[src*="special-dog-gold-jr"],
+#catalogo .foto img[src*="special-dog-gold-ad"] {
+    transform: scale(1.35);
+}
+
+#catalogo h3 {
+    font-size: 17px;
+    line-height: 1.35;
+}
+
+#catalogo .preco {
+    font-size: 25px;
+}
+
+@media (max-width: 900px) {
+    #catalogo .grid-produtos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    #catalogo .grid-produtos {
+        grid-template-columns: 1fr;
+    }
 }
