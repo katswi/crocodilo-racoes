@@ -424,7 +424,7 @@ width:95%;
     box-shadow:0 18px 40px rgba(0,0,0,.15);
 }
 .foto{
-    height:220px;
+    height:190px;
 
     display:flex;
     justify-content:center;
@@ -469,6 +469,7 @@ width:95%;
     margin-bottom:20px;
 }
 .produto button{
+        margin-top:auto;
     width:100%;
 
     padding:14px;
