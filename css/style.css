@@ -1425,6 +1425,28 @@ html{
         padding: 12px 25px;
         font-size: 13px;
     }
+            /* ========= GOLDEN - CELULAR ========= */
+
+        .grid-golden {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .card-golden {
+            padding: 12px;
+            border-radius: 18px;
+        }
+
+        .card-golden img {
+            height: 150px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .card-golden h3 {
+            font-size: 15px;
+            margin-top: 15px;
+        }
         .grid-premier {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
@@ -1712,4 +1734,566 @@ html{
     #catalogo .grid-produtos {
         grid-template-columns: 1fr;
     }
+}
+/* =========================
+   MODAL DA CONTA
+   ========================= */
+
+.modal-conta {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: 0.3s;
+
+    z-index: 3000;
+}
+
+.modal-conta.ativo {
+    opacity: 1;
+    visibility: visible;
+}
+
+.conteudo-conta {
+    position: relative;
+
+    width: 90%;
+    max-width: 420px;
+
+    background: #fff;
+
+    padding: 40px 30px;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+
+    transform: translateY(20px);
+    transition: 0.3s;
+}
+
+.modal-conta.ativo .conteudo-conta {
+    transform: translateY(0);
+}
+
+.fechar-conta {
+    position: absolute;
+
+    top: 12px;
+    right: 15px;
+
+    border: none;
+    background: none;
+
+    font-size: 30px;
+
+    cursor: pointer;
+
+    color: #333;
+}
+
+.icone-conta {
+    width: 65px;
+    height: 65px;
+
+    margin: 0 auto 20px;
+
+    border-radius: 50%;
+
+    background: #e7f4eb;
+    color: #1f6f43;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+}
+
+.conteudo-conta h2 {
+    color: #146b3a;
+
+    margin-bottom: 8px;
+
+    font-size: 28px;
+}
+
+.conteudo-conta p {
+    color: #666;
+
+    margin-bottom: 25px;
+
+    font-size: 15px;
+}
+
+.botao-conta {
+    width: 100%;
+
+    padding: 14px;
+
+    margin-top: 10px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #1f6f43;
+    color: #fff;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.botao-conta:hover {
+    background: #155d38;
+    transform: translateY(-2px);
+}
+
+.botao-conta.secundario {
+    background: #fff;
+
+    color: #1f6f43;
+
+    border: 2px solid #1f6f43;
+}
+
+.botao-conta.secundario:hover {
+    background: #e7f4eb;
+}
+/* =========================
+   CAMPOS DE LOGIN
+   ========================= */
+
+#modal-login input {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 14px 16px;
+    margin-bottom: 12px;
+
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    font-size: 15px;
+    font-family: inherit;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+#modal-login input:focus {
+    border-color: #1f6f43;
+    box-shadow: 0 0 0 3px rgba(31, 111, 67, 0.10);
+}
+
+#modal-login input::placeholder {
+    color: #999;
+}
+/* =========================================
+   MELHORIA DO MODAL - CRIAR MINHA CONTA
+   ========================================= */
+
+#modal-cadastro .conteudo-conta {
+    width: 480px;
+    max-width: 90%;
+    padding: 35px 40px;
+    border-radius: 22px;
+    box-sizing: border-box;
+}
+
+#modal-cadastro .icone-conta {
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 18px;
+    font-size: 30px;
+}
+
+#modal-cadastro h2 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+#modal-cadastro p {
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+#modal-cadastro input {
+    width: 100%;
+    height: 50px;
+    padding: 0 15px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 9px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    outline: none;
+}
+
+#modal-cadastro input:focus {
+    border-color: #217a48;
+    box-shadow: 0 0 0 2px rgba(33, 122, 72, 0.12);
+}
+
+#modal-cadastro .botao-conta {
+    width: 100%;
+    height: 50px;
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 9px;
+}
+
+#modal-cadastro .botao-conta.secundario {
+    margin-top: 10px;
+}
+
+/* =========================================
+   CELULAR
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    #modal-cadastro .conteudo-conta {
+        width: calc(100% - 30px);
+        max-width: none;
+        padding: 30px 22px;
+    }
+
+    #modal-cadastro h2 {
+        font-size: 25px;
+    }
+
+    #modal-cadastro p {
+        font-size: 13px;
+    }
+
+    #modal-cadastro input {
+        height: 48px;
+    }
+}
+/* =========================================
+   MENSAGENS DO SITE
+   ========================================= */
+
+.mensagem-site {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    padding: 20px;
+}
+
+.mensagem-site .mensagem-conteudo {
+    width: 380px;
+    max-width: 100%;
+    background: #fff;
+    border-radius: 20px;
+    padding: 35px 30px 30px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    animation: aparecerMensagem 0.2s ease;
+}
+
+.mensagem-site .mensagem-icone {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #e8f5ed;
+    color: #217a48;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
+
+.mensagem-site h3 {
+    margin: 0 0 10px;
+    color: #176b3d;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.mensagem-site p {
+    margin: 0 0 25px;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.mensagem-site button {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: 9px;
+    background: #217a48;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.mensagem-site button:hover {
+    background: #176b3d;
+}
+
+@keyframes aparecerMensagem {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .mensagem-site .mensagem-conteudo {
+        width: 100%;
+        padding: 30px 22px 25px;
+    }
+
+    .mensagem-site h3 {
+        font-size: 21px;
+    }
+}
+/* =========================================
+   ÁREA DO CLIENTE LOGADO
+   ========================================= */
+
+.email-cliente {
+    font-size: 14px;
+    color: #777;
+    margin-top: -5px;
+    margin-bottom: 25px;
+    word-break: break-word;
+}
+
+.conta-logada-icone {
+    background: #e8f5ed;
+    color: #217a48;
+}
+
+.opcoes-conta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.opcao-conta {
+    width: 100%;
+    min-height: 68px;
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.opcao-conta:hover {
+    border-color: #217a48;
+    background: #f7fbf8;
+    transform: translateY(-1px);
+}
+
+.opcao-icone {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 10px;
+    background: #e8f5ed;
+    color: #217a48;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.opcao-conta > span:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.opcao-conta strong {
+    color: #176b3d;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.opcao-conta small {
+    color: #888;
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+.seta-conta {
+    color: #aaa;
+    font-size: 13px;
+}
+
+.opcao-sair {
+    margin-top: 5px;
+}
+
+.opcao-sair .opcao-icone {
+    background: #f7eeee;
+    color: #b54a4a;
+}
+
+.opcao-sair strong {
+    color: #9f3d3d;
+}
+
+@media (max-width: 600px) {
+
+    .opcao-conta {
+        min-height: 64px;
+    }
+
+    .opcao-conta strong {
+        font-size: 13px;
+    }
+
+    .opcao-conta small {
+        font-size: 10px;
+    }
+}
+/* =========================================
+   MEUS PEDIDOS
+   ========================================= */
+
+.modal-pedidos {
+    max-width: 500px;
+}
+
+.pedidos-vazio {
+    text-align: center;
+    padding: 25px 10px;
+}
+
+.pedidos-vazio > i {
+    font-size: 42px;
+    color: #217a48;
+    margin-bottom: 12px;
+}
+
+.pedidos-vazio h3 {
+    margin: 5px 0;
+    color: #176b3d;
+    font-size: 18px;
+}
+
+.pedidos-vazio p {
+    color: #777;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.lista-pedidos {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 350px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.pedido-card {
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    padding: 14px;
+    background: #fff;
+}
+
+.pedido-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.pedido-topo strong {
+    color: #176b3d;
+    font-size: 13px;
+}
+
+.pedido-topo span {
+    background: #e8f5ed;
+    color: #217a48;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.pedido-produto {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+    gap: 3px;
+}
+
+.pedido-produto strong {
+    color: #333;
+    font-size: 14px;
+}
+
+.pedido-produto small {
+    color: #888;
+    font-size: 11px;
+}
+
+.pedido-rodape {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.pedido-rodape span {
+    color: #888;
+    font-size: 11px;
+}
+
+.pedido-rodape strong {
+    color: #176b3d;
+    font-size: 15px;
+}
+
+.fechar-pedidos-btn {
+    width: 100%;
 }
