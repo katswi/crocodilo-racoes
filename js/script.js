@@ -40,14 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // ABRIR CARRINHO
     // =========================
 
-    btnCarrinho.addEventListener("click", (e) => {
+btnCarrinho.addEventListener("click", (e) => {
+    e.preventDefault();
 
-        e.preventDefault();
+    atualizarCarrinho();
 
-        carrinhoLateral.classList.add("ativo");
-        overlay.classList.add("ativo");
-
-    });
+    carrinhoLateral.classList.add("ativo");
+    overlay.classList.add("ativo");
+});
 
 
     // =========================
@@ -155,28 +155,31 @@ finalizarWhatsApp.addEventListener("click", async () => {
 
     let total = 0;
 
-    const produtosPedido = carrinho.map(item => {
+const pedidoId = crypto.randomUUID();
 
-        const preco = parseFloat(
-            item.preco
-                .replace("R$", "")
-                .replace(/\./g, "")
-                .replace(",", ".")
-        );
+const produtosPedido = carrinho.map(item => {
 
-        const subtotal = preco * item.quantidade;
+    const preco = parseFloat(
+        item.preco
+            .replace("R$", "")
+            .replace(/\./g, "")
+            .replace(",", ".")
+    );
 
-        total += subtotal;
+    const subtotal = preco * item.quantidade;
 
-        return {
-            user_id: user.id,
-            produto: item.nome,
-            quantidade: item.quantidade,
-            variacao: null,
-            valor: subtotal,
-            status: "Recebido"
-        };
-    });
+    total += subtotal;
+
+    return {
+        user_id: user.id,
+        pedido_id: pedidoId,
+        produto: item.nome,
+        quantidade: item.quantidade,
+        variacao: null,
+        valor: subtotal,
+        status: "Recebido"
+    };
+});
 
     // =========================
     // SALVAR PEDIDO
@@ -236,11 +239,13 @@ finalizarWhatsApp.addEventListener("click", async () => {
     // ATUALIZAR CARRINHO
     // =========================
 
-    function atualizarCarrinho() {
+function atualizarCarrinho() {
 
-        listaCarrinho.innerHTML = "";
+    carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
-        let total = 0;
+    listaCarrinho.innerHTML = "";
+
+    let total = 0;
 
         carrinho.forEach(item => {
 
@@ -379,6 +384,27 @@ finalizarWhatsApp.addEventListener("click", async () => {
     // =========================
 
   const campoBusca = document.querySelector("#campo-busca");
+  
+  campoBusca.value = "";
+campoBusca.removeAttribute("value");
+
+function limparBuscaRestaurada() {
+    if (
+        campoBusca &&
+        campoBusca.value.includes("@")
+    ) {
+        campoBusca.value = "";
+    }
+}
+
+window.addEventListener("load", () => {
+    setTimeout(limparBuscaRestaurada, 300);
+});
+
+window.addEventListener("pageshow", () => {
+    setTimeout(limparBuscaRestaurada, 300);
+
+});
 const botaoBusca = document.querySelector(".pesquisa button");
 
 function realizarBusca() {
@@ -660,12 +686,12 @@ botoesMarca.forEach(botao => {
     // INICIAR
     // =========================
 
-    contador.textContent = carrinho.reduce(
-        (total, item) => total + item.quantidade,
-        0
-    );
+contador.textContent = carrinho.reduce(
+    (total, item) => total + item.quantidade,
+    0
+);
 
-    atualizarCarrinho();
+atualizarCarrinho();
 
 });
 // =========================
@@ -1292,6 +1318,28 @@ async function abrirMeusPedidos() {
 
     modalPedidos.className = "modal-conta";
     modalPedidos.classList.add("ativo");
+    // AGRUPAR PRODUTOS PELO MESMO PEDIDO
+const pedidosAgrupados = Object.values(
+    pedidos.reduce((grupos, pedido) => {
+
+        // Pedidos antigos sem pedido_id ficam separados
+        const chave = pedido.pedido_id || `antigo-${pedido.id}`;
+
+        if (!grupos[chave]) {
+            grupos[chave] = {
+                pedido_id: pedido.pedido_id,
+                status: pedido.status,
+                created_at: pedido.created_at,
+                produtos: []
+            };
+        }
+
+        grupos[chave].produtos.push(pedido);
+
+        return grupos;
+
+    }, {})
+);
 
     modalPedidos.innerHTML = `
 
@@ -1333,59 +1381,83 @@ async function abrirMeusPedidos() {
 
                     <div class="lista-pedidos">
 
-                        ${pedidos.map(pedido => `
+${pedidosAgrupados.map((grupo, index) => {
 
-                            <div class="pedido-card">
+    const totalPedido = grupo.produtos.reduce(
+        (total, produto) => total + Number(produto.valor || 0),
+        0
+    );
 
-                                <div class="pedido-topo">
+    return `
+        <div class="pedido-card">
 
-                                    <strong>
-                                        Pedido #${pedido.id}
-                                    </strong>
+            <div class="pedido-topo">
 
-                                    <span>
-                                        ${pedido.status}
-                                    </span>
+                <strong>
+                    Pedido #${index + 1}
+                </strong>
 
-                                </div>
+                <span>
+                    ${grupo.status}
+                </span>
 
-                                <div class="pedido-produto">
+            </div>
 
-                                    <strong>
-                                        ${pedido.produto}
-                                    </strong>
+            <div class="pedido-produtos">
 
-                                    ${
-                                        pedido.variacao
-                                        ? `<small>${pedido.variacao}</small>`
-                                        : ""
-                                    }
+                ${grupo.produtos.map(produto => `
 
-                                    <small>
-                                        Quantidade: ${pedido.quantidade}
-                                    </small>
+                    <div class="pedido-produto">
 
-                                </div>
+                        <strong>
+                            ${produto.produto}
+                        </strong>
 
-                                <div class="pedido-rodape">
+                        ${
+                            produto.variacao
+                                ? `<small>${produto.variacao}</small>`
+                                : ""
+                        }
 
-                                    <span>
-                                        ${new Date(
-                                            pedido.created_at
-                                        ).toLocaleDateString("pt-BR")}
-                                    </span>
+                        <small>
+                            Quantidade: ${produto.quantidade}
+                        </small>
 
-                                    <strong>
-                                        R$ ${Number(
-                                            pedido.valor
-                                        ).toFixed(2).replace(".", ",")}
-                                    </strong>
+                        <strong class="pedido-produto-valor">
+                            R$ ${Number(produto.valor || 0)
+                                .toFixed(2)
+                                .replace(".", ",")}
+                        </strong>
 
-                                </div>
+                    </div>
 
-                            </div>
+                `).join("")}
 
-                        `).join("")}
+            </div>
+
+            <div class="pedido-rodape">
+
+                <span>
+                    ${new Date(grupo.created_at)
+                        .toLocaleDateString("pt-BR")}
+                </span>
+
+                <strong>
+                    Total: R$ ${totalPedido
+                        .toFixed(2)
+                        .replace(".", ",")}
+                </strong>
+
+            </div>
+            <button class="comprar-novamente" type="button">
+    <i class="fa-solid fa-cart-shopping"></i>
+    Comprar novamente
+</button>
+
+        </div>
+    `;
+
+}).join("")}
 
                     </div>
 
@@ -1401,7 +1473,80 @@ async function abrirMeusPedidos() {
     `;
 
     document.body.appendChild(modalPedidos);
+// =========================
+// COMPRAR NOVAMENTE
+// =========================
 
+document
+    .querySelectorAll(".comprar-novamente")
+    .forEach((botao, index) => {
+
+        botao.addEventListener("click", () => {
+
+            const grupo = pedidosAgrupados[index];
+
+            let carrinhoAtual =
+                JSON.parse(localStorage.getItem("carrinho")) || [];
+
+            grupo.produtos.forEach(produto => {
+
+                const existente = carrinhoAtual.find(
+                    item => item.nome === produto.produto
+                );
+
+                if (existente) {
+
+                    existente.quantidade += Number(
+                        produto.quantidade
+                    );
+
+                } else {
+
+                    const precoUnitario =
+                        Number(produto.valor) /
+                        Number(produto.quantidade);
+
+                    carrinhoAtual.push({
+                        nome: produto.produto,
+                        marca: "",
+                        preco: `R$ ${precoUnitario
+                            .toFixed(2)
+                            .replace(".", ",")}`,
+                        quantidade: Number(produto.quantidade)
+                    });
+                }
+            });
+
+            // Salva o carrinho
+            localStorage.setItem(
+                "carrinho",
+                JSON.stringify(carrinhoAtual)
+            );
+
+            // Atualiza a variável do carrinho
+            carrinho = carrinhoAtual;
+            
+            const contadorCarrinho = document.getElementById("contador-carrinho");
+
+if (contadorCarrinho) {
+    contadorCarrinho.textContent = carrinho.reduce(
+        (total, item) => total + Number(item.quantidade),
+        0
+    );
+}
+
+// Fecha Meus pedidos
+modalPedidos.remove();
+
+// Fecha a conta
+modalConta.classList.remove("ativo");
+
+// Abre o carrinho pelo botão oficial
+document.querySelector("#btn-carrinho").click();
+
+        });
+
+    });
 
     // Fechar no X
 
