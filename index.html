@@ -79,7 +79,15 @@
         </div>
 
         <div class="pesquisa">
-            <input id="campo-busca" type="text" placeholder="Pesquise por rações, medicamentos, pesca...">
+            <input
+    id="campo-busca"
+    type="search"
+    name="busca-produto"
+    placeholder="Pesquise por rações, medicamentos, pesca..."
+    autocomplete="off"
+    autocapitalize="off"
+    spellcheck="false"
+>
             <button type="button">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
@@ -878,6 +886,9 @@
             <input type="email" id="login-email" placeholder="Seu e-mail">
 
             <input type="password" id="login-senha" placeholder="Sua senha">
+            <button id="esqueci-senha" type="button">
+    Esqueci minha senha
+</button>
 
             <button id="confirmar-login" class="botao-conta">
                 Entrar
@@ -890,6 +901,74 @@
         </div>
 
     </div>
+    <!-- MODAL ESQUECI MINHA SENHA -->
+<div id="modal-esqueci-senha" class="modal-conta">
+
+    <div class="conteudo-conta">
+
+        <button id="fechar-esqueci-senha" class="fechar-conta">&times;</button>
+
+        <div class="icone-conta">
+            <i class="fa-solid fa-key"></i>
+        </div>
+
+        <h2>Recuperar senha</h2>
+
+        <p>
+            Digite o e-mail da sua conta e enviaremos um link para você criar uma nova senha.
+        </p>
+
+        <input
+            type="email"
+            id="recuperar-email"
+            placeholder="Seu e-mail"
+        >
+
+        <button id="enviar-recuperacao" class="botao-conta">
+            Enviar link
+        </button>
+
+        <button id="voltar-login-recuperacao" class="botao-conta secundario">
+            Voltar para o login
+        </button>
+
+    </div>
+
+</div>
+<!-- MODAL NOVA SENHA -->
+<div id="modal-nova-senha" class="modal-conta">
+
+    <div class="conteudo-conta">
+
+        <div class="icone-conta">
+            <i class="fa-solid fa-lock"></i>
+        </div>
+
+        <h2>Nova senha</h2>
+
+        <p>
+            Crie uma nova senha para sua conta.
+        </p>
+
+        <input
+            type="password"
+            id="nova-senha"
+            placeholder="Nova senha"
+        >
+
+        <input
+            type="password"
+            id="confirmar-nova-senha"
+            placeholder="Confirme sua nova senha"
+        >
+
+        <button id="salvar-nova-senha" class="botao-conta">
+            Alterar senha
+        </button>
+
+    </div>
+
+</div>
 
 
     <!-- MODAL DE CADASTRO -->

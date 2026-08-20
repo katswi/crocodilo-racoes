@@ -2297,3 +2297,825 @@ html{
 .fechar-pedidos-btn {
     width: 100%;
 }
+/* =========================================
+   FAVORITOS
+   ========================================= */
+
+.botao-favorito {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+    color: #217a48;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+
+    z-index: 5;
+
+    transition: 0.2s ease;
+}
+
+.botao-favorito:hover {
+    transform: scale(1.08);
+}
+
+.botao-favorito.favoritado {
+    color: #217a48;
+}
+
+
+/* =========================================
+   MODAL FAVORITOS
+   ========================================= */
+
+.modal-favoritos {
+    max-width: 520px;
+}
+
+.subtitulo-favoritos {
+    color: #777;
+    font-size: 13px;
+    margin-top: -5px;
+    margin-bottom: 18px;
+}
+
+
+/* =========================================
+   LISTA
+   ========================================= */
+
+.lista-favoritos {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    max-height: 400px;
+    overflow-y: auto;
+
+    padding-right: 3px;
+}
+
+
+/* =========================================
+   CARD
+   ========================================= */
+
+.favorito-card {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 12px;
+
+    border: 1px solid #e1e1e1;
+
+    border-radius: 12px;
+
+    background: #fff;
+
+    transition: 0.2s;
+}
+
+.favorito-card:hover {
+    border-color: #217a48;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   IMAGEM
+   ========================================= */
+
+.favorito-imagem {
+    width: 80px;
+    height: 80px;
+
+    min-width: 80px;
+
+    border-radius: 10px;
+
+    background: #f7f7f7;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.favorito-imagem img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
+/* =========================================
+   INFORMAÇÕES
+   ========================================= */
+
+.favorito-info {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+}
+
+.favorito-info strong {
+    color: #176b3d;
+
+    font-size: 14px;
+
+    line-height: 1.3;
+}
+
+.favorito-info small {
+    color: #888;
+
+    font-size: 11px;
+
+    margin-top: 3px;
+}
+
+.favorito-info > span {
+    color: #217a48;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    margin-top: 5px;
+}
+
+
+/* =========================================
+   AÇÕES
+   ========================================= */
+
+.favorito-acoes {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 8px;
+}
+
+.favorito-comprar {
+    border: none;
+
+    background: #217a48;
+
+    color: #fff;
+
+    border-radius: 7px;
+
+    padding: 7px 13px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.favorito-comprar:hover {
+    background: #176b3d;
+}
+
+.favorito-remover {
+    width: 32px;
+    height: 32px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #f7eeee;
+
+    color: #b54a4a;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.favorito-remover:hover {
+    background: #f0dddd;
+}
+
+
+/* =========================================
+   FAVORITOS VAZIO
+   ========================================= */
+
+.favoritos-vazio {
+    text-align: center;
+
+    padding: 30px 15px;
+}
+
+.favoritos-vazio > i {
+    font-size: 45px;
+
+    color: #217a48;
+
+    margin-bottom: 12px;
+}
+
+.favoritos-vazio h3 {
+    margin: 5px 0;
+
+    color: #176b3d;
+
+    font-size: 18px;
+}
+
+.favoritos-vazio p {
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   CELULAR
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .botao-favorito {
+        width: 36px;
+        height: 36px;
+
+        top: 8px;
+        right: 8px;
+
+        font-size: 18px;
+    }
+
+    .favorito-card {
+        gap: 10px;
+
+        padding: 10px;
+    }
+
+    .favorito-imagem {
+        width: 65px;
+        height: 65px;
+        min-width: 65px;
+    }
+
+    .favorito-info strong {
+        font-size: 13px;
+    }
+
+    .favorito-info > span {
+        font-size: 14px;
+    }
+
+    .favorito-comprar {
+        padding: 6px 10px;
+    }
+
+}
+/* =========================================
+   FAVORITOS - DESIGN FINAL
+   ========================================= */
+
+/* CARD DO PRODUTO */
+.produto {
+    position: relative;
+}
+
+/* CORAÇÃO */
+.produto .botao-favorito {
+    position: absolute !important;
+
+    top: 12px !important;
+    right: 12px !important;
+
+    width: 42px !important;
+    height: 42px !important;
+
+    min-width: 42px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    border: 1px solid #e5e5e5 !important;
+    border-radius: 50% !important;
+
+    background: #ffffff !important;
+
+    color: #217a48 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    font-size: 20px !important;
+
+    line-height: 1 !important;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12) !important;
+
+    cursor: pointer !important;
+
+    z-index: 20 !important;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease !important;
+}
+
+.produto .botao-favorito:hover {
+    transform: scale(1.08) !important;
+
+    box-shadow:
+        0 5px 14px rgba(0, 0, 0, 0.16) !important;
+
+    background: #f7fbf8 !important;
+}
+
+.produto .botao-favorito i {
+    margin: 0 !important;
+
+    font-size: 20px !important;
+
+    color: inherit !important;
+}
+
+.produto .botao-favorito.favoritado {
+    background: #e8f5ed !important;
+
+    border-color: #217a48 !important;
+
+    color: #217a48 !important;
+}
+
+
+/* =========================================
+   MODAL - MEUS FAVORITOS
+   ========================================= */
+
+.modal-favoritos {
+    width: 520px !important;
+
+    max-width: calc(100% - 30px) !important;
+
+    padding: 32px !important;
+
+    box-sizing: border-box;
+
+    max-height: 85vh;
+
+    overflow: hidden;
+}
+
+.modal-favoritos .icone-conta {
+    width: 62px;
+    height: 62px;
+
+    margin-bottom: 14px;
+
+    background: #e8f5ed;
+
+    color: #217a48;
+}
+
+.modal-favoritos h2 {
+    margin-bottom: 6px;
+}
+
+.modal-favoritos .subtitulo-favoritos {
+    margin-bottom: 20px;
+
+    color: #777;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   LISTA DOS FAVORITOS
+   ========================================= */
+
+.modal-favoritos .lista-favoritos {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    max-height: 430px;
+
+    overflow-y: auto;
+
+    padding: 2px 4px 4px 2px;
+}
+
+
+/* BARRA DE ROLAGEM */
+
+.modal-favoritos .lista-favoritos::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-favoritos .lista-favoritos::-webkit-scrollbar-track {
+    background: #f3f3f3;
+
+    border-radius: 10px;
+}
+
+.modal-favoritos .lista-favoritos::-webkit-scrollbar-thumb {
+    background: #c9ddd0;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================
+   CARD DO FAVORITO
+   ========================================= */
+
+.modal-favoritos .favorito-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    width: 100%;
+
+    padding: 12px;
+
+    box-sizing: border-box;
+
+    background: #fff;
+
+    border: 1px solid #e6e6e6;
+
+    border-radius: 14px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.modal-favoritos .favorito-card:hover {
+    border-color: #c9dfd1;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.07);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   IMAGEM
+   ========================================= */
+
+.modal-favoritos .favorito-imagem {
+    width: 78px;
+
+    height: 78px;
+
+    min-width: 78px;
+
+    background: #f8f8f8;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.modal-favoritos .favorito-imagem img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
+/* =========================================
+   INFORMAÇÕES
+   ========================================= */
+
+.modal-favoritos .favorito-info {
+    flex: 1;
+
+    min-width: 0;
+
+    text-align: left;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.modal-favoritos .favorito-info strong {
+    color: #176b3d;
+
+    font-size: 14px;
+
+    line-height: 1.35;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+.modal-favoritos .favorito-info small {
+    color: #888;
+
+    font-size: 11px;
+
+    margin-top: 3px;
+}
+
+.modal-favoritos .favorito-info > span {
+    color: #217a48;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    margin-top: 5px;
+}
+
+
+/* =========================================
+   BOTÕES
+   ========================================= */
+
+.modal-favoritos .favorito-acoes {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 8px;
+}
+
+.modal-favoritos .favorito-comprar {
+    width: auto !important;
+
+    padding: 7px 15px !important;
+
+    margin: 0 !important;
+
+    border: none !important;
+
+    border-radius: 8px !important;
+
+    background: #217a48 !important;
+
+    color: #fff !important;
+
+    font-size: 12px !important;
+
+    font-weight: 600 !important;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.modal-favoritos .favorito-comprar:hover {
+    background: #176b3d !important;
+
+    transform: translateY(-1px);
+}
+
+.modal-favoritos .favorito-remover {
+    width: 34px !important;
+
+    height: 34px !important;
+
+    min-width: 34px !important;
+
+    padding: 0 !important;
+
+    margin: 0 !important;
+
+    border: none !important;
+
+    border-radius: 8px !important;
+
+    background: #f8eeee !important;
+
+    color: #b34d4d !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.modal-favoritos .favorito-remover:hover {
+    background: #f2dddd !important;
+
+    transform: scale(1.05);
+}
+
+
+/* =========================================
+   FAVORITOS VAZIO
+   ========================================= */
+
+.modal-favoritos .favoritos-vazio {
+    padding: 30px 15px;
+
+    text-align: center;
+}
+
+.modal-favoritos .favoritos-vazio > i {
+    display: block;
+
+    margin-bottom: 12px;
+
+    font-size: 42px;
+
+    color: #217a48;
+}
+
+.modal-favoritos .favoritos-vazio h3 {
+    margin: 5px 0 7px;
+
+    color: #176b3d;
+
+    font-size: 18px;
+}
+
+.modal-favoritos .favoritos-vazio p {
+    margin: 0;
+
+    color: #777;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   BOTÃO VOLTAR
+   ========================================= */
+
+.modal-favoritos .fechar-favoritos-btn {
+    margin-top: 18px;
+}
+
+
+/* =========================================
+   CELULAR
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .produto .botao-favorito {
+        top: 9px !important;
+
+        right: 9px !important;
+
+        width: 36px !important;
+
+        height: 36px !important;
+
+        min-width: 36px !important;
+    }
+
+    .produto .botao-favorito i {
+        font-size: 18px !important;
+    }
+
+    .modal-favoritos {
+        padding: 25px 18px !important;
+    }
+
+    .modal-favoritos .lista-favoritos {
+        max-height: 55vh;
+    }
+
+    .modal-favoritos .favorito-imagem {
+        width: 65px;
+
+        height: 65px;
+
+        min-width: 65px;
+    }
+
+    .modal-favoritos .favorito-info strong {
+        font-size: 13px;
+    }
+
+    .modal-favoritos .favorito-info > span {
+        font-size: 14px;
+    }
+
+}
+/* =========================
+   ESQUECI MINHA SENHA
+   ========================= */
+
+#esqueci-senha {
+    display: block;
+    width: fit-content;
+    margin: 12px auto 18px;
+
+    padding: 0;
+    border: none;
+    background: transparent;
+
+    color: #1f7a4c;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#esqueci-senha:hover {
+    color: #155c38;
+    text-decoration: underline;
+}
+/* =========================
+   CAMPO - RECUPERAR SENHA
+   ========================= */
+
+#recuperar-email {
+    display: block;
+    width: 100%;
+    height: 48px;
+
+    box-sizing: border-box;
+    padding: 0 16px;
+    margin: 22px 0 14px;
+
+    border: 1px solid #d8d8d8;
+    border-radius: 10px;
+
+    background: #fff;
+    color: #333;
+
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#recuperar-email::placeholder {
+    color: #999;
+}
+
+#recuperar-email:focus {
+    border-color: #1f7a4c;
+    box-shadow: 0 0 0 3px rgba(31, 122, 76, 0.12);
+}

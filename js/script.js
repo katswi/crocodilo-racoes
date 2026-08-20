@@ -125,19 +125,33 @@ document.addEventListener("DOMContentLoaded", () => {
 finalizarWhatsApp.addEventListener("click", async () => {
 
     if (carrinho.length === 0) {
-        alert("Seu carrinho está vazio!");
+        mostrarMensagem(
+            "Carrinho vazio",
+            "Adicione algum produto antes de finalizar o pedido.",
+            "!"
+        );
         return;
     }
 
-    // Verifica se o cliente está logado
-    const { data: { user } } = await supabase.auth.getUser();
+    // =========================
+    // VERIFICAR USUÁRIO LOGADO
+    // =========================
+
+    const { data: { user } } =
+        await supabaseClient.auth.getUser();
 
     if (!user) {
-
-        alert("Entre na sua conta para finalizar o pedido.");
-
+        mostrarMensagem(
+            "Entre na sua conta",
+            "Faça login para finalizar o pedido.",
+            "!"
+        );
         return;
     }
+
+    // =========================
+    // CALCULAR TOTAL
+    // =========================
 
     let total = 0;
 
@@ -158,36 +172,38 @@ finalizarWhatsApp.addEventListener("click", async () => {
             user_id: user.id,
             produto: item.nome,
             quantidade: item.quantidade,
+            variacao: null,
             valor: subtotal,
             status: "Recebido"
         };
-
     });
 
+    // =========================
+    // SALVAR PEDIDO
+    // =========================
 
-    // Salvar pedido no Supabase
-    const { error } = await supabase
+    const { error } = await supabaseClient
         .from("pedidos")
         .insert(produtosPedido);
 
-
     if (error) {
-
         console.error("Erro ao salvar pedido:", error);
 
-        alert(
-            "Não foi possível registrar o pedido. Tente novamente."
+        mostrarMensagem(
+            "Erro",
+            "Não foi possível registrar o pedido.",
+            "!"
         );
 
         return;
     }
 
-
-    // Montar mensagem do WhatsApp
+    // =========================
+    // MONTAR MENSAGEM WHATSAPP
+    // =========================
 
     let mensagem =
         "Olá! Gostaria de fazer um pedido.%0A%0A";
-
 
     carrinho.forEach(item => {
 
@@ -196,9 +212,7 @@ finalizarWhatsApp.addEventListener("click", async () => {
             "%0AQuantidade: " + item.quantidade +
             "%0APreço: " + item.preco +
             "%0A%0A";
-
     });
-
 
     mensagem +=
         "Total: R$ " +
@@ -207,8 +221,9 @@ finalizarWhatsApp.addEventListener("click", async () => {
         "%0AForma de pagamento:" +
         "%0AEndereço para entrega:";
 
-
-    // Abrir WhatsApp
+    // =========================
+    // ABRIR WHATSAPP
+    // =========================
 
     window.open(
         "https://wa.me/5512981584619?text=" + mensagem,
@@ -216,7 +231,6 @@ finalizarWhatsApp.addEventListener("click", async () => {
     );
 
 });
-
 
     // =========================
     // ATUALIZAR CARRINHO
@@ -664,11 +678,6 @@ console.log("MODAL CONTA:", document.getElementById("modal-conta"));
 const modalConta = document.getElementById("modal-conta");
 const fecharConta = document.getElementById("fechar-conta");
 
-btnConta.addEventListener("click", function (e) {
-    e.preventDefault();
-    modalConta.classList.add("ativo");
-});
-
 fecharConta.addEventListener("click", function () {
     modalConta.classList.remove("ativo");
 });
@@ -686,6 +695,79 @@ const btnEntrarConta = document.getElementById("btn-entrar-conta");
 const modalLogin = document.getElementById("modal-login");
 const fecharLogin = document.getElementById("fechar-login");
 const voltarConta = document.getElementById("voltar-conta");
+const esqueciSenha = document.getElementById("esqueci-senha");
+const modalEsqueciSenha = document.getElementById("modal-esqueci-senha");
+const fecharEsqueciSenha = document.getElementById("fechar-esqueci-senha");
+const voltarLoginRecuperacao = document.getElementById("voltar-login-recuperacao");
+const enviarRecuperacao = document.getElementById("enviar-recuperacao");
+esqueciSenha.addEventListener("click", function () {
+
+    modalLogin.classList.remove("ativo");
+    modalEsqueciSenha.classList.add("ativo");
+
+    const emailLogin = document.getElementById("login-email").value.trim();
+
+    if (emailLogin) {
+        document.getElementById("recuperar-email").value = emailLogin;
+    }
+
+});
+voltarLoginRecuperacao.addEventListener("click", function () {
+
+    modalEsqueciSenha.classList.remove("ativo");
+    modalLogin.classList.add("ativo");
+
+});
+fecharEsqueciSenha.addEventListener("click", function () {
+
+    modalEsqueciSenha.classList.remove("ativo");
+
+});
+enviarRecuperacao.addEventListener("click", async function () {
+
+    const email = document
+        .getElementById("recuperar-email")
+        .value
+        .trim();
+
+    if (!email) {
+
+        mostrarMensagem(
+            "Informe seu e-mail",
+            "Digite o e-mail usado na sua conta.",
+            "!"
+        );
+
+        return;
+    }
+
+    const { error } =
+        await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + window.location.pathname
+        });
+
+    if (error) {
+
+        console.error(error);
+
+        mostrarMensagem(
+            "Não foi possível enviar",
+            "Não conseguimos enviar o link de recuperação. Tente novamente.",
+            "!"
+        );
+
+        return;
+    }
+
+    modalEsqueciSenha.classList.remove("ativo");
+
+    mostrarMensagem(
+        "E-mail enviado!",
+        "Verifique sua caixa de entrada e clique no link para criar uma nova senha.",
+        "✓"
+    );
+
+});
 
 // Abrir tela de login
 btnEntrarConta.addEventListener("click", function () {
@@ -1068,17 +1150,15 @@ async function abrirContaCliente() {
 
     // FAVORITOS
 
-    document
-        .getElementById("btn-meus-favoritos")
-        .addEventListener("click", () => {
+ // FAVORITOS
 
-            mostrarMensagem(
-                "Meus favoritos",
-                "Essa área será adicionada em breve.",
-                "♥"
-            );
+document
+    .getElementById("btn-meus-favoritos")
+    .addEventListener("click", () => {
 
-        });
+        abrirMeusFavoritos();
+
+    });
 
 
     // SAIR
@@ -1171,21 +1251,9 @@ supabaseClient.auth.onAuthStateChange(() => {
 });
 
 // =========================================
-// VERIFICAR LOGIN AO ABRIR O SITE
-// =========================================
-
-atualizarConta();
-
-
-// =========================================
 // ATUALIZAR CONTA QUANDO O LOGIN MUDAR
 // =========================================
 
-supabaseClient.auth.onAuthStateChange((event, session) => {
-
-    atualizarConta();
-
-});
 // =========================================
 // MEUS PEDIDOS
 // =========================================
@@ -1357,3 +1425,740 @@ async function abrirMeusPedidos() {
         });
 
 }
+// =========================================
+// FAVORITOS
+// =========================================
+
+async function obterFavoritosUsuario() {
+
+    const { data: { user } } =
+        await supabaseClient.auth.getUser();
+
+    if (!user) {
+        return {
+            user: null,
+            favoritos: [],
+            error: null
+        };
+    }
+
+    const { data: favoritos, error } =
+        await supabaseClient
+            .from("favoritos")
+            .select("*")
+            .eq("user_id", user.id)
+            .order("created_at", { ascending: false });
+
+    return {
+        user,
+        favoritos: favoritos || [],
+        error
+    };
+}
+
+
+// =========================================
+// VISUAL DO CORAÇÃO
+// =========================================
+
+function atualizarVisualCoracao(botao, favorito) {
+
+    const icone = botao.querySelector("i");
+
+    if (!icone) return;
+
+    icone.className = favorito
+        ? "fa-solid fa-heart"
+        : "fa-regular fa-heart";
+
+    botao.classList.toggle("favoritado", favorito);
+
+    botao.setAttribute(
+        "aria-label",
+        favorito
+            ? "Remover dos favoritos"
+            : "Adicionar aos favoritos"
+    );
+
+    botao.setAttribute(
+        "title",
+        favorito
+            ? "Remover dos favoritos"
+            : "Adicionar aos favoritos"
+    );
+}
+
+
+// =========================================
+// ADICIONAR / REMOVER FAVORITO
+// =========================================
+
+async function alternarFavorito(produto, botao) {
+
+    const { data: { user } } =
+        await supabaseClient.auth.getUser();
+
+    if (!user) {
+
+        mostrarMensagem(
+            "Entre na sua conta",
+            "Faça login para salvar produtos nos seus favoritos.",
+            "♥"
+        );
+
+        return;
+    }
+
+    const nome =
+        produto.querySelector("h3")?.textContent.trim();
+
+    const marca =
+        produto.querySelector(".marca")?.textContent.trim() || "";
+
+    const precoTexto =
+        produto.querySelector(".preco")?.textContent.trim()
+        || "R$ 0,00";
+
+    const imagem =
+        produto.querySelector(".foto img")?.getAttribute("src")
+        || "";
+
+    if (!nome) return;
+
+
+    // Verificar se já existe
+    const { data: existente, error: buscaError } =
+        await supabaseClient
+            .from("favoritos")
+            .select("id")
+            .eq("user_id", user.id)
+            .eq("produto", nome)
+            .maybeSingle();
+
+
+    if (buscaError) {
+
+        console.error(
+            "Erro ao verificar favorito:",
+            buscaError
+        );
+
+        mostrarMensagem(
+            "Erro",
+            "Não foi possível verificar esse favorito.",
+            "!"
+        );
+
+        return;
+    }
+
+
+    // REMOVER
+    if (existente) {
+
+        const { error } =
+            await supabaseClient
+                .from("favoritos")
+                .delete()
+                .eq("id", existente.id)
+                .eq("user_id", user.id);
+
+        if (error) {
+
+            console.error(
+                "Erro ao remover favorito:",
+                error
+            );
+
+            mostrarMensagem(
+                "Erro",
+                "Não foi possível remover o produto dos favoritos.",
+                "!"
+            );
+
+            return;
+        }
+
+        atualizarVisualCoracao(
+            botao,
+            false
+        );
+
+        return;
+    }
+
+
+    // CONVERTER PREÇO
+    const preco =
+        parseFloat(
+            precoTexto
+                .replace("R$", "")
+                .replace(/\./g, "")
+                .replace(",", ".")
+                .trim()
+        ) || 0;
+
+
+    // SALVAR
+    const { error } =
+        await supabaseClient
+            .from("favoritos")
+            .insert({
+                user_id: user.id,
+                produto: nome,
+                marca: marca,
+                preco: preco,
+                imagem: imagem
+            });
+
+
+    if (error) {
+
+        console.error(
+            "Erro ao salvar favorito:",
+            error
+        );
+
+        mostrarMensagem(
+            "Erro",
+            "Não foi possível salvar o produto nos favoritos.",
+            "!"
+        );
+
+        return;
+    }
+
+
+    atualizarVisualCoracao(
+        botao,
+        true
+    );
+
+    mostrarMensagem(
+        "Adicionado aos favoritos",
+        "Você poderá encontrar esse produto em Meus favoritos.",
+        "♥"
+    );
+}
+
+
+// =========================================
+// CRIAR CORAÇÕES NOS PRODUTOS
+// =========================================
+
+function inicializarBotoesFavoritos() {
+
+    document
+        .querySelectorAll(".produto")
+        .forEach(produto => {
+
+            if (
+                produto.querySelector(".botao-favorito")
+            ) {
+                return;
+            }
+
+            produto.style.position = "relative";
+
+
+            const botao =
+                document.createElement("button");
+
+            botao.type = "button";
+
+            botao.className =
+                "botao-favorito";
+
+            botao.innerHTML =
+                '<i class="fa-regular fa-heart"></i>';
+
+            botao.setAttribute(
+                "aria-label",
+                "Adicionar aos favoritos"
+            );
+
+            botao.setAttribute(
+                "title",
+                "Adicionar aos favoritos"
+            );
+
+
+            botao.addEventListener(
+                "click",
+                async e => {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    await alternarFavorito(
+                        produto,
+                        botao
+                    );
+
+                }
+            );
+
+
+            produto.appendChild(botao);
+
+        });
+
+
+    carregarEstadoDosFavoritos();
+}
+
+
+// =========================================
+// CARREGAR FAVORITOS SALVOS
+// =========================================
+
+async function carregarEstadoDosFavoritos() {
+
+    const {
+        user,
+        favoritos,
+        error
+    } = await obterFavoritosUsuario();
+
+    if (!user || error) return;
+
+
+    document
+        .querySelectorAll(".produto")
+        .forEach(produto => {
+
+            const nome =
+                produto
+                    .querySelector("h3")
+                    ?.textContent
+                    .trim();
+
+            const botao =
+                produto.querySelector(
+                    ".botao-favorito"
+                );
+
+            if (!nome || !botao) return;
+
+
+            const favorito =
+                favoritos.some(
+                    f => f.produto === nome
+                );
+
+
+            atualizarVisualCoracao(
+                botao,
+                favorito
+            );
+
+        });
+}
+
+
+// =========================================
+// ABRIR MEUS FAVORITOS
+// =========================================
+
+async function abrirMeusFavoritos() {
+
+    const {
+        user,
+        favoritos,
+        error
+    } = await obterFavoritosUsuario();
+
+
+    if (!user) {
+
+        mostrarMensagem(
+            "Entre na sua conta",
+            "Faça login para acessar seus favoritos.",
+            "♥"
+        );
+
+        return;
+    }
+
+
+    if (error) {
+
+        console.error(
+            "Erro ao buscar favoritos:",
+            error
+        );
+
+        mostrarMensagem(
+            "Erro",
+            "Não foi possível carregar seus favoritos.",
+            "!"
+        );
+
+        return;
+    }
+
+
+    const modalFavoritos =
+        document.createElement("div");
+
+    modalFavoritos.className =
+        "modal-conta ativo";
+
+
+    modalFavoritos.innerHTML = `
+
+        <div class="conteudo-conta modal-favoritos">
+
+            <button
+                class="fechar-conta fechar-favoritos">
+                &times;
+            </button>
+
+            <div class="icone-conta">
+                <i class="fa-solid fa-heart"></i>
+            </div>
+
+            <h2>Meus favoritos</h2>
+
+            <p class="subtitulo-favoritos">
+                Produtos que você salvou para comprar depois.
+            </p>
+
+
+            ${
+                favoritos.length === 0
+
+                ?
+
+                `
+                <div class="favoritos-vazio">
+
+                    <i class="fa-regular fa-heart"></i>
+
+                    <h3>
+                        Nenhum favorito ainda
+                    </h3>
+
+                    <p>
+                        Clique no coração dos produtos
+                        que você quer guardar.
+                    </p>
+
+                </div>
+                `
+
+                :
+
+                `
+                <div class="lista-favoritos">
+
+                    ${
+                        favoritos.map(f => `
+
+                            <div
+                                class="favorito-card"
+                                data-id="${f.id}"
+                            >
+
+                                <div class="favorito-imagem">
+
+                                    <img
+                                        src="${f.imagem || ""}"
+                                        alt="${f.produto}"
+                                    >
+
+                                </div>
+
+
+                                <div class="favorito-info">
+
+                                    <strong>
+                                        ${f.produto}
+                                    </strong>
+
+                                    <small>
+                                        ${f.marca || ""}
+                                    </small>
+
+                                    <span>
+                                        R$
+                                        ${Number(f.preco || 0)
+                                            .toFixed(2)
+                                            .replace(".", ",")}
+                                    </span>
+
+
+                                    <div class="favorito-acoes">
+
+                                        <button
+                                            type="button"
+                                            class="favorito-comprar"
+                                            data-nome="${f.produto}"
+                                        >
+                                            Comprar
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="favorito-remover"
+                                            data-id="${f.id}"
+                                        >
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        `).join("")
+                    }
+
+                </div>
+                `
+            }
+
+
+            <button
+                type="button"
+                class="botao-conta fechar-favoritos-btn">
+                Voltar
+            </button>
+
+        </div>
+    `;
+
+
+    document.body.appendChild(
+        modalFavoritos
+    );
+
+
+    modalFavoritos
+        .querySelector(".fechar-favoritos")
+        .addEventListener(
+            "click",
+            () => modalFavoritos.remove()
+        );
+
+
+    modalFavoritos
+        .querySelector(".fechar-favoritos-btn")
+        .addEventListener(
+            "click",
+            () => modalFavoritos.remove()
+        );
+
+
+    // REMOVER
+    modalFavoritos
+        .querySelectorAll(".favorito-remover")
+        .forEach(botao => {
+
+            botao.addEventListener(
+                "click",
+                async () => {
+
+                    const id =
+                        botao.dataset.id;
+
+                    const {
+                        data: { user }
+                    } =
+                        await supabaseClient.auth.getUser();
+
+
+                    if (!user) return;
+
+
+                    const { error } =
+                        await supabaseClient
+                            .from("favoritos")
+                            .delete()
+                            .eq("id", id)
+                            .eq("user_id", user.id);
+
+
+                    if (error) {
+
+                        mostrarMensagem(
+                            "Erro",
+                            "Não foi possível remover o favorito.",
+                            "!"
+                        );
+
+                        return;
+                    }
+
+
+                    modalFavoritos.remove();
+
+                    abrirMeusFavoritos();
+
+                    carregarEstadoDosFavoritos();
+
+                }
+            );
+
+        });
+
+
+    // COMPRAR
+    modalFavoritos
+        .querySelectorAll(".favorito-comprar")
+        .forEach(botao => {
+
+            botao.addEventListener(
+                "click",
+                () => {
+
+                    const nome =
+                        botao.dataset.nome;
+
+                    const produto =
+                        [...document.querySelectorAll(".produto")]
+                            .find(
+                                item =>
+                                    item.querySelector("h3")
+                                        ?.textContent
+                                        .trim()
+                                    === nome
+                            );
+
+
+                    if (!produto) {
+
+                        mostrarMensagem(
+                            "Produto indisponível",
+                            "Esse produto não está disponível no catálogo atual.",
+                            "!"
+                        );
+
+                        return;
+                    }
+
+
+                    produto
+                        .querySelector(".btn-comprar")
+                        ?.click();
+
+                    modalFavoritos.remove();
+
+                }
+            );
+
+        });
+
+}
+
+
+// =========================================
+// INICIAR FAVORITOS
+// =========================================
+
+inicializarBotoesFavoritos();
+
+supabaseClient.auth.onAuthStateChange(
+    () => {
+
+        setTimeout(
+            inicializarBotoesFavoritos,
+            0
+        );
+
+    }
+);
+// =========================================
+// RECUPERAÇÃO DE SENHA - NOVA SENHA
+// =========================================
+
+const modalNovaSenha = document.getElementById("modal-nova-senha");
+const salvarNovaSenha = document.getElementById("salvar-nova-senha");
+
+salvarNovaSenha.addEventListener("click", async function () {
+
+    const novaSenha =
+        document.getElementById("nova-senha").value;
+
+    const confirmarNovaSenha =
+        document.getElementById("confirmar-nova-senha").value;
+
+    if (!novaSenha || !confirmarNovaSenha) {
+
+        mostrarMensagem(
+            "Preencha os campos",
+            "Digite e confirme sua nova senha.",
+            "!"
+        );
+
+        return;
+    }
+
+    if (novaSenha !== confirmarNovaSenha) {
+
+        mostrarMensagem(
+            "Senhas diferentes",
+            "As duas senhas precisam ser iguais.",
+            "!"
+        );
+
+        return;
+    }
+
+    if (novaSenha.length < 6) {
+
+        mostrarMensagem(
+            "Senha muito curta",
+            "Sua senha precisa ter pelo menos 6 caracteres.",
+            "!"
+        );
+
+        return;
+    }
+
+    const { error } =
+        await supabaseClient.auth.updateUser({
+            password: novaSenha
+        });
+
+    if (error) {
+
+        console.error(error);
+
+        mostrarMensagem(
+            "Não foi possível alterar",
+            "Não conseguimos alterar sua senha. Tente novamente.",
+            "!"
+        );
+
+        return;
+    }
+
+    modalNovaSenha.classList.remove("ativo");
+
+    document.getElementById("nova-senha").value = "";
+    document.getElementById("confirmar-nova-senha").value = "";
+
+    mostrarMensagem(
+        "Senha alterada!",
+        "Sua senha foi alterada com sucesso. Agora você já pode entrar na sua conta.",
+        "✓"
+    );
+
+});
+
+
+// =========================================
+// DETECTAR RECUPERAÇÃO DE SENHA
+// =========================================
+
+supabaseClient.auth.onAuthStateChange((event) => {
+
+    if (event === "PASSWORD_RECOVERY") {
+
+        modalNovaSenha.classList.add("ativo");
+
+    }
+
+});
