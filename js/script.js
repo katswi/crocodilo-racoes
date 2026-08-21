@@ -68,54 +68,114 @@ btnCarrinho.addEventListener("click", (e) => {
         overlay.classList.remove("ativo");
 
     });
-
-
     // =========================
-    // BOTÕES COMPRAR
-    // =========================
+// VARIAÇÕES DE PESO
+// =========================
 
-    botoesComprar.forEach(botao => {
+const produtosComVariacao = document.querySelectorAll(".produto");
 
-        botao.addEventListener("click", () => {
+produtosComVariacao.forEach(produto => {
 
-            const produto = botao.closest(".produto");
+    const opcoes = produto.querySelectorAll(".opcao-variacao");
+    const preco = produto.querySelector(".preco-variacao");
 
-            const nome = produto.querySelector("h3").textContent;
+    if (!opcoes.length || !preco) return;
 
-            const existente = carrinho.find(item => item.nome === nome);
+    opcoes.forEach(opcao => {
 
-            if (existente) {
+        opcao.addEventListener("click", () => {
 
-                existente.quantidade++;
+            // Remove seleção das outras opções
+            opcoes.forEach(item => {
+                item.classList.remove("ativo");
+            });
 
-            } else {
+            // Seleciona a opção clicada
+            opcao.classList.add("ativo");
 
-                carrinho.push({
+            // Pega preço e peso
+            const novoPreco = opcao.dataset.preco;
+            const novoPeso = opcao.dataset.peso;
+            const novaImagem = opcao.dataset.imagem;
 
-                    nome: nome,
+const imagemProduto = produto.querySelector(".imagem-produto");
 
-                    marca: produto.querySelector(".marca").textContent,
+if (imagemProduto && novaImagem) {
+    imagemProduto.src = novaImagem;
+}
 
-                    preco: produto.querySelector(".preco").textContent,
-
-                    quantidade: 1
-
-                });
-
-            }
-
-            contador.textContent = carrinho.reduce(
-                (total, item) => total + item.quantidade,
-                0
-            );
-
-            salvarCarrinho();
-
-            atualizarCarrinho();
-
+            // Atualiza o preço na tela
+            preco.innerHTML = `R$ ${novoPreco} <small>${novoPeso}</small>`;
         });
 
     });
+
+});
+
+
+// =========================
+// BOTÕES COMPRAR
+// =========================
+
+botoesComprar.forEach(botao => {
+
+    botao.addEventListener("click", () => {
+
+        const produto = botao.closest(".produto");
+
+        const nome = produto.querySelector("h3").textContent;
+        const marca = produto.querySelector(".marca").textContent;
+
+        // Verifica se o produto possui variação
+        const variacaoSelecionada = produto.querySelector(".opcao-variacao.ativo");
+
+        let preco;
+        let peso = null;
+
+        if (variacaoSelecionada) {
+
+            preco = variacaoSelecionada.dataset.preco;
+            peso = variacaoSelecionada.dataset.peso;
+
+        } else {
+
+            preco = produto.querySelector(".preco").textContent;
+
+        }
+
+        // Procura o mesmo produto + mesma variação
+        const existente = carrinho.find(item =>
+            item.nome === nome &&
+            item.variacao === peso
+        );
+
+        if (existente) {
+
+            existente.quantidade++;
+
+        } else {
+
+            carrinho.push({
+                nome: nome,
+                marca: marca,
+                preco: `R$ ${preco}`,
+                variacao: peso,
+                quantidade: 1
+            });
+
+        }
+
+        contador.textContent = carrinho.reduce(
+            (total, item) => total + item.quantidade,
+            0
+        );
+
+        salvarCarrinho();
+        atualizarCarrinho();
+
+    });
+
+});
 
 
 // =========================
@@ -259,13 +319,13 @@ function atualizarCarrinho() {
 
             listaCarrinho.innerHTML += `
 
-                <div class="item-carrinho">
+<div class="item-carrinho">
+    <h4>${item.nome}</h4>
+    <p>${item.marca}</p>
 
-                    <h4>${item.nome}</h4>
+    ${item.variacao ? `<small class="variacao-carrinho">${item.variacao}</small>` : ""}
 
-                    <p>${item.marca}</p>
-
-                    <div class="quantidade">
+    <div class="quantidade">
 
                         <button class="menos">−</button>
 
