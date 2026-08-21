@@ -889,12 +889,12 @@ nav a:hover::after{
 .botao-golden:hover{
     background:#155d38;
 }
-.grid-premier{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
+.grid-premier {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
 }
-
 .card-premier{
     background:white;
     border-radius:28px;
@@ -1140,7 +1140,10 @@ html{
     font-size:12px;
     font-weight:700;
 
+    padding-top:2px;
+
     border-radius:50%;
+    transform: translateY(2px);
 }
 /* ========= CARRINHO ========= */
 
@@ -1293,6 +1296,18 @@ html{
    ========================= */
 
 @media (max-width: 768px) {
+.grid-premier {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.marca-destaque {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 12px;
+    box-sizing: border-box;
+}
 
     header {
         grid-template-columns: 1fr;
@@ -1447,10 +1462,6 @@ html{
             font-size: 15px;
             margin-top: 15px;
         }
-        .grid-premier {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
 
     .card-premier {
         padding: 12px;
@@ -3240,5 +3251,54 @@ html{
     margin-top: 35px !important;
 }
 .produto-grande-gigante .preco {
+    margin-top: 35px !important;
+}
+.produto-adulto-grande-gigante .preco {
+    margin-top: 35px !important;
+}
+.produto-light-grande-gigante .preco {
+    margin-top: 35px !important;
+}
+.produto-senior-15kg .preco {
+    margin-top: 35px !important;
+}
+
+.card-premier h3 {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    color: #08783f !important;
+    margin-top: 15px !important;
+    text-align: center;
+}
+.titulo-premier {
+    font-family: inherit !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    color: #08783f !important;
+    margin-top: 15px !important;
+    text-align: center !important;
+}
+.grid-premier .card-premier:first-child h3 {
+    font-family: inherit !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    color: #08783f !important;
+    margin-top: 15px !important;
+    text-align: center !important;
+}
+/* ALINHAMENTO DOS PRODUTOS COM PESO */
+#catalogo .produto:has(.variacoes-produto) .variacoes-produto {
+    min-height: 42px;
+}
+
+#catalogo .produto:has(.variacoes-produto) .preco-variacao {
+    margin-top: 35px !important;
+    margin-bottom: 0 !important;
+}
+/* PADRÃO DE ALTURA DOS TÍTULOS DO CATÁLOGO */
+#catalogo .produto h3 {
+    min-height: 70px !important;
+}
+.produto-ambientes-filhote .preco {
     margin-top: 35px !important;
 }
